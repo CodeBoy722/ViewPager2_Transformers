@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ViewPager2 Transformers</string>
+    <string name="picture">picture</string>
 </resources>
