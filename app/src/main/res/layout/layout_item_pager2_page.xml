@@ -12,4 +12,17 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/circle_background"
+        android:text="10"
+        android:gravity="center"
+        android:textColor="@color/purple_700"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 </FrameLayout>
