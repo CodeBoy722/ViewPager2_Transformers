@@ -5,7 +5,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.viewpager2.widget.ViewPager2;
 
-class Pager2_CubeInScalingTransformer implements ViewPager2.PageTransformer{
+public class Pager2_CubeInScalingTransformer implements ViewPager2.PageTransformer{
     @Override
     public void transformPage(@NonNull View page, float position) {
         page.setCameraDistance(20000);
