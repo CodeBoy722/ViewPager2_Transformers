@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         transformerNameList = new ArrayList<>();
         PageImages = new ArrayList<>();
         pager2 = findViewById(R.id.pager2);
+        pager2.setOffscreenPageLimit(6);
         OrientationManager = findViewById(R.id.orientation_group);
         transformerSelector = findViewById(R.id.transformer_selector);
         AddAllTransformers();
@@ -92,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
         transformerSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                pager2 = null;//set viewpager2 to null to invalidate previous transformer effects and set new own
+                pager2 = findViewById(R.id.pager2);
+                pager2.setOffscreenPageLimit(6);
+                pager2.setAdapter(pagerAdapter);
                 pager2.setPageTransformer(Transformers.get(position));
             }
 
