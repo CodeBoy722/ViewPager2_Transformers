@@ -2,28 +2,38 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:id="@+id/page"
-    android:background="@drawable/page_drawable">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/page">
 
-    <ImageView
-        android:id="@+id/picture"
-        android:contentDescription="@string/picture"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:layout_margin="10dp"
+        app:cardCornerRadius="50dp">
 
-    <TextView
-        android:id="@+id/number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/circle_background"
-        android:text="10"
-        android:gravity="center"
-        android:textColor="@color/purple_700"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/purple_500"
+            android:contentDescription="@string/picture"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/circle_background"
+            android:gravity="center"
+            android:text="10"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
+
+
 </FrameLayout>
