@@ -36,6 +36,6 @@ public class Pager2ViewHolder extends RecyclerView.ViewHolder {
                 .apply(new RequestOptions().centerCrop())
                 .into(picture);
 
-        number.setText(PagePosition);
+        number.setText(String.valueOf(PagePosition));
     }
 }

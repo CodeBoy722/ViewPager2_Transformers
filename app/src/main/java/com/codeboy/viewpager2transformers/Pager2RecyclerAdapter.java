@@ -24,7 +24,7 @@ class Pager2RecyclerAdapter extends RecyclerView.Adapter<Pager2ViewHolder> {
     @Override
     public Pager2ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
        LayoutInflater inflater = LayoutInflater.from(ParentContext);
-       View ItemView = inflater.inflate(R.layout.layout_item_pager2_page,null,false);
+       View ItemView = inflater.inflate(R.layout.layout_item_pager2_page,parent,false);
        return new Pager2ViewHolder(ItemView);
     }
 

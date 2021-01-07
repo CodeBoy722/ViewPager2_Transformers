@@ -1,12 +1,14 @@
 package com.codeboy.viewpager2transformers;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.codeboy.viewpager2transformers.Pager2Transformers.Pager2_AccordionTransformer;
@@ -22,7 +24,6 @@ import com.codeboy.viewpager2transformers.Pager2Transformers.Pager2_CubeOutScali
 import com.codeboy.viewpager2transformers.Pager2Transformers.Pager2_CubeOutTransformer;
 import com.codeboy.viewpager2transformers.Pager2Transformers.Pager2_DefaultTransformer;
 import com.codeboy.viewpager2transformers.Pager2Transformers.Pager2_DepthTransformer;
-import com.codeboy.viewpager2transformers.Pager2Transformers.Pager2_FadeOutTransformer;
 import com.codeboy.viewpager2transformers.Pager2Transformers.Pager2_FanTransformer;
 import com.codeboy.viewpager2transformers.Pager2Transformers.Pager2_FidgetSpinTransformer;
 import com.codeboy.viewpager2transformers.Pager2Transformers.Pager2_ForegroundToBackgroundTransformer;
@@ -42,30 +43,19 @@ import com.codeboy.viewpager2transformers.Pager2Transformers.Pager2_VerticalShut
 import com.codeboy.viewpager2transformers.Pager2Transformers.Pager2_ZoomInTransformer;
 import com.codeboy.viewpager2transformers.Pager2Transformers.Pager2_ZoomOutSlideTransformer;
 import com.codeboy.viewpager2transformers.Pager2Transformers.Pager2_ZoomOutTransformer;
-import com.eftimoff.viewpagertransformers.AccordionTransformer;
-import com.eftimoff.viewpagertransformers.BackgroundToForegroundTransformer;
-import com.eftimoff.viewpagertransformers.DefaultTransformer;
-import com.eftimoff.viewpagertransformers.DepthPageTransformer;
-import com.eftimoff.viewpagertransformers.DrawFromBackTransformer;
-import com.eftimoff.viewpagertransformers.ForegroundToBackgroundTransformer;
-import com.eftimoff.viewpagertransformers.ParallaxPageTransformer;
-import com.eftimoff.viewpagertransformers.RotateDownTransformer;
-import com.eftimoff.viewpagertransformers.RotateUpTransformer;
-import com.eftimoff.viewpagertransformers.StackTransformer;
-import com.eftimoff.viewpagertransformers.TabletTransformer;
-import com.eftimoff.viewpagertransformers.ZoomInTransformer;
-import com.eftimoff.viewpagertransformers.ZoomOutSlideTransformer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     ViewPager2 pager2;
-    RadioButton verticalPager;
-    RadioButton horizontalPager;
+    RadioGroup OrientationManager;
     Spinner transformerSelector;
     ArrayList<ViewPager2.PageTransformer> Transformers;
     ArrayList<String> transformerNameList;
+    List<Integer> PageImages;
+    Pager2RecyclerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,48 +67,88 @@ public class MainActivity extends AppCompatActivity {
     private void InitViews(){
         Transformers = new ArrayList<>();
         transformerNameList = new ArrayList<>();
+        PageImages = new ArrayList<>();
         pager2 = findViewById(R.id.pager2);
+        OrientationManager = findViewById(R.id.orientation_group);
         transformerSelector = findViewById(R.id.transformer_selector);
-        verticalPager = findViewById(R.id.verti);
-        horizontalPager = findViewById(R.id.hori);
         AddAllTransformers();
+        setUpAdapters();
+        setUpPagerOrientation();
     }
 
+    private void setUpAdapters(){
+        PageImages.add(R.drawable.moon);
+        PageImages.add(R.drawable.mountains);
+        PageImages.add(R.drawable.plain);
+        PageImages.add(R.drawable.river);
+        PageImages.add(R.drawable.setting_sun);
+        PageImages.add(R.drawable.snow);
+        PageImages.add(R.drawable.volcano);
+        pagerAdapter = new Pager2RecyclerAdapter(PageImages,this);
+        pager2.setAdapter(pagerAdapter);
+
+        ArrayAdapter<String> selectorAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item, transformerNameList);
+        transformerSelector.setAdapter(selectorAdapter);
+        transformerSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                pager2.setPageTransformer(Transformers.get(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 
     private void AddAllTransformers(){
-        Transformers.add(new Pager2_AccordionTransformer()); transformerNameList.add(Pager2_AccordionTransformer.class.getName());
-        Transformers.add(new Pager2_AntiClockSpinTransformer()); transformerNameList.add(Pager2_AntiClockSpinTransformer.class.getName());
-        Transformers.add(new Pager2_BackDrawTransformer()); transformerNameList.add(Pager2_BackDrawTransformer.class.getName());
-        Transformers.add(new Pager2_BackgroundToForegroundTransformer()); transformerNameList.add(Pager2_BackgroundToForegroundTransformer.class.getName());
-        Transformers.add(new Pager2_ClockSpinTransformer()); transformerNameList.add(Pager2_ClockSpinTransformer.class.getName());
-        Transformers.add(new Pager2_CubeInDepthTransformer()); transformerNameList.add(Pager2_CubeInDepthTransformer.class.getName());
-        Transformers.add(new Pager2_CubeInScalingTransformer()); transformerNameList.add(Pager2_CubeInScalingTransformer.class.getName());
-        Transformers.add(new Pager2_CubeInTransformer()); transformerNameList.add(Pager2_CubeInTransformer.class.getName());
-        Transformers.add(new Pager2_CubeOutDepthTransformer()); transformerNameList.add(Pager2_CubeOutDepthTransformer.class.getName());
-        Transformers.add(new Pager2_CubeOutScalingTransformer()); transformerNameList.add(Pager2_CubeOutScalingTransformer.class.getName());
-        Transformers.add(new Pager2_CubeOutTransformer()); transformerNameList.add(Pager2_CubeOutTransformer.class.getName());
-        Transformers.add(new Pager2_DefaultTransformer()); transformerNameList.add(Pager2_DefaultTransformer.class.getName());
-        Transformers.add(new Pager2_DepthTransformer()); transformerNameList.add(Pager2_DepthTransformer.class.getName());
-        Transformers.add(new Pager2_DepthTransformer()); transformerNameList.add(Pager2_DepthTransformer.class.getName());
-        Transformers.add(new Pager2_FanTransformer()); transformerNameList.add(Pager2_FanTransformer.class.getName());
-        Transformers.add(new Pager2_FidgetSpinTransformer()); transformerNameList.add(Pager2_FidgetSpinTransformer.class.getName());
-        Transformers.add(new Pager2_ForegroundToBackgroundTransformer()); transformerNameList.add(Pager2_ForegroundToBackgroundTransformer.class.getName());
-        Transformers.add(new Pager2_GateTransformer()); transformerNameList.add(Pager2_GateTransformer.class.getName());
-        Transformers.add(new Pager2_HingeTransformer()); transformerNameList.add(Pager2_HingeTransformer.class.getName());
-        Transformers.add(new Pager2_HorizontalFlipTransformer()); transformerNameList.add(Pager2_HorizontalFlipTransformer.class.getName());
-        Transformers.add(new Pager2_ParallaxTransformer(R.id.page)); transformerNameList.add(Pager2_ParallaxTransformer.class.getName());
-        Transformers.add(new Pager2_PopTransformer()); transformerNameList.add(Pager2_PopTransformer.class.getName());
-        Transformers.add(new Pager2_RotateDownTransformer()); transformerNameList.add(Pager2_RotateDownTransformer.class.getName());
-        Transformers.add(new Pager2_RotateUpTransformer()); transformerNameList.add(Pager2_RotateUpTransformer.class.getName());
-        Transformers.add(new Pager2_SpinnerTransformer()); transformerNameList.add(Pager2_SpinnerTransformer.class.getName());
-        Transformers.add(new Pager2_StackTransformer()); transformerNameList.add(Pager2_StackTransformer.class.getName());
-        Transformers.add(new Pager2_TabletTransformer()); transformerNameList.add(Pager2_TabletTransformer.class.getName());
-        Transformers.add(new Pager2_TossTransformer()); transformerNameList.add(Pager2_TossTransformer.class.getName());
-        Transformers.add(new Pager2_VerticalFlipTransformer()); transformerNameList.add(Pager2_VerticalFlipTransformer.class.getName());
-        Transformers.add(new Pager2_VerticalShutTransformer()); transformerNameList.add(Pager2_VerticalShutTransformer.class.getName());
-        Transformers.add(new Pager2_ZoomInTransformer()); transformerNameList.add(Pager2_ZoomInTransformer.class.getName());
-        Transformers.add(new Pager2_ZoomOutTransformer()); transformerNameList.add(Pager2_ZoomOutTransformer.class.getName());
-        Transformers.add(new Pager2_ZoomOutSlideTransformer()); transformerNameList.add(Pager2_ZoomOutSlideTransformer.class.getName());
+        Transformers.add(new Pager2_AccordionTransformer()); transformerNameList.add(Pager2_AccordionTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_AntiClockSpinTransformer()); transformerNameList.add(Pager2_AntiClockSpinTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_BackDrawTransformer()); transformerNameList.add(Pager2_BackDrawTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_BackgroundToForegroundTransformer()); transformerNameList.add(Pager2_BackgroundToForegroundTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_ClockSpinTransformer()); transformerNameList.add(Pager2_ClockSpinTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_CubeInDepthTransformer()); transformerNameList.add(Pager2_CubeInDepthTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_CubeInScalingTransformer()); transformerNameList.add(Pager2_CubeInScalingTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_CubeInTransformer()); transformerNameList.add(Pager2_CubeInTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_CubeOutDepthTransformer()); transformerNameList.add(Pager2_CubeOutDepthTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_CubeOutScalingTransformer()); transformerNameList.add(Pager2_CubeOutScalingTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_CubeOutTransformer()); transformerNameList.add(Pager2_CubeOutTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_DefaultTransformer()); transformerNameList.add(Pager2_DefaultTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_DepthTransformer()); transformerNameList.add(Pager2_DepthTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_DepthTransformer()); transformerNameList.add(Pager2_DepthTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_FanTransformer()); transformerNameList.add(Pager2_FanTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_FidgetSpinTransformer()); transformerNameList.add(Pager2_FidgetSpinTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_ForegroundToBackgroundTransformer()); transformerNameList.add(Pager2_ForegroundToBackgroundTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_GateTransformer()); transformerNameList.add(Pager2_GateTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_HingeTransformer()); transformerNameList.add(Pager2_HingeTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_HorizontalFlipTransformer()); transformerNameList.add(Pager2_HorizontalFlipTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_ParallaxTransformer(R.id.page)); transformerNameList.add(Pager2_ParallaxTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_PopTransformer()); transformerNameList.add(Pager2_PopTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_RotateDownTransformer()); transformerNameList.add(Pager2_RotateDownTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_RotateUpTransformer()); transformerNameList.add(Pager2_RotateUpTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_SpinnerTransformer()); transformerNameList.add(Pager2_SpinnerTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_StackTransformer()); transformerNameList.add(Pager2_StackTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_TabletTransformer()); transformerNameList.add(Pager2_TabletTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_TossTransformer()); transformerNameList.add(Pager2_TossTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_VerticalFlipTransformer()); transformerNameList.add(Pager2_VerticalFlipTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_VerticalShutTransformer()); transformerNameList.add(Pager2_VerticalShutTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_ZoomInTransformer()); transformerNameList.add(Pager2_ZoomInTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_ZoomOutTransformer()); transformerNameList.add(Pager2_ZoomOutTransformer.class.getSimpleName());
+        Transformers.add(new Pager2_ZoomOutSlideTransformer()); transformerNameList.add(Pager2_ZoomOutSlideTransformer.class.getSimpleName());
+    }
+
+    private void setUpPagerOrientation(){
+        OrientationManager.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.hori){
+                    pager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+                }else if(checkedId == R.id.verti){
+                    pager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
+                }
+            }
+        });
     }
 
 }
