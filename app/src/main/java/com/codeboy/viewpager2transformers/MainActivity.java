@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         transformerNameList = new ArrayList<>();
         PageImages = new ArrayList<>();
         pager2 = findViewById(R.id.pager2);
-        pager2.setOffscreenPageLimit(6);
+        pager2.setOffscreenPageLimit(7);
         OrientationManager = findViewById(R.id.orientation_group);
         transformerSelector = findViewById(R.id.transformer_selector);
         AddAllTransformers();
@@ -88,16 +87,17 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new Pager2RecyclerAdapter(PageImages,this);
         pager2.setAdapter(pagerAdapter);
 
-        ArrayAdapter<String> selectorAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item, transformerNameList);
+        ArrayAdapter<String> selectorAdapter = new ArrayAdapter<String>(this,R.layout.layout_spinner_item, transformerNameList);
         transformerSelector.setAdapter(selectorAdapter);
         transformerSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                pager2 = null;//set viewpager2 to null to invalidate previous transformer effects and set new own
+                pager2 = null;//set viewpager2 to null to invalidate previous transformer effects and set new one
                 pager2 = findViewById(R.id.pager2);
-                pager2.setOffscreenPageLimit(6);
+                pager2.setOffscreenPageLimit(7);
                 pager2.setAdapter(pagerAdapter);
                 pager2.setPageTransformer(Transformers.get(position));
+                OrientationManager.clearCheck();
             }
 
             @Override
@@ -148,12 +148,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.hori){
-                    pager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+                    ResetPagerWithOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
                 }else if(checkedId == R.id.verti){
-                    pager2.setOrientation(ViewPager2.ORIENTATION_VERTICAL);
+                    ResetPagerWithOrientation(ViewPager2.ORIENTATION_VERTICAL);
                 }
             }
         });
+    }
+
+    private void ResetPagerWithOrientation(int PAGER2_ORIENTATION){
+        pager2 = null;//set viewpager2 to null to invalidate previous transformer effects and set new one
+        pager2 = findViewById(R.id.pager2);
+        pager2.setOffscreenPageLimit(7);
+        pager2.setAdapter(pagerAdapter);
+        pager2.setPageTransformer(Transformers.get(transformerSelector.getSelectedItemPosition()));
+        pager2.setOrientation(PAGER2_ORIENTATION);
     }
 
 }

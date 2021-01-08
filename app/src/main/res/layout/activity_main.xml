@@ -10,7 +10,8 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_200"
+        android:background="@drawable/background_bottom_light"
+        android:backgroundTint="@color/Gray_200"
         app:layout_constraintBottom_toTopOf="@+id/body"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +33,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:fontFamily="@font/fredokaone_regular"
+                android:gravity="center"
                 android:text="Horizontal"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <RadioButton
@@ -40,7 +44,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:fontFamily="@font/fredokaone_regular"
+                android:gravity="center"
                 android:text="Vertical"
+                android:textColor="@color/black"
                 android:textStyle="bold" />
 
         </RadioGroup>
@@ -49,6 +56,7 @@
             android:id="@+id/transformer_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@+id/orientation_group"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
