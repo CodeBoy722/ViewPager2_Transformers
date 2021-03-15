@@ -1,7 +1,7 @@
 # ViewPager2 Page Transformers
 An Android library of 33 ViewPager2.PageTransformers for your Android projects with ViewPager2
 
-### [Read the article on Medium](https://android.jlelse.eu/android-simple-image-gallery-30c0f00abe64?source=friends_link&sk=c203004612a1f0d402db9084feca42d4)
+### [Read the article on Medium](https://medium.com/codex/33-viewpager2-transformers-for-your-android-uis-bbdab801eb2b?source=friends_link&sk=267824aaee35e398ccfa020b5c8d022c)
 
 [![](https://jitpack.io/v/CodeBoy722/ViewPager2_Transformers.svg)](https://jitpack.io/#CodeBoy722/ViewPager2_Transformers)
 
